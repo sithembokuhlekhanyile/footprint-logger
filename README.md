@@ -31,7 +31,7 @@ Built with Node.js, Express, MongoDB (Mongoose), vanilla JavaScript and Chart.js
 Requirements: Node.js 18 or later and MongoDB (local or MongoDB Atlas).
 
 ```bash
-git clone https://github.com/<your-username>/footprint-logger.git
+git clone https://github.com/sithembokuhlekhanyile/footprint-logger.git
 cd footprint-logger
 npm install
 cp .env.example .env      # then set MONGODB_URI and a long random JWT_SECRET
