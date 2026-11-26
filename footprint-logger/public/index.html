@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Footprint Logger | Track your daily carbon footprint</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232f7d6d'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="brand"><span class="brand-mark"></span> Footprint Logger</a>
+    <nav data-nav></nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Know your footprint, one day at a time.</h1>
+      <p>Log what you drive, eat and power each day. See your running total, find your biggest sources and get practical ways to cut them.</p>
+    </section>
+
+    <div class="notice" data-guest-notice>
+      You are logging as a guest. Entries are saved in this browser only.
+      <a href="/register">Create a free account</a> to keep your history, see weekly summaries and get personalised tips. Your guest entries will move across automatically.
+    </div>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2>Log an activity</h2>
+        <form class="activity-form" data-activity-form>
+          <div class="row">
+            <label>Category
+              <select name="category">
+                <option value="all">All categories</option>
+                <option value="transport">Transport</option>
+                <option value="food">Food</option>
+                <option value="energy">Energy</option>
+              </select>
+            </label>
+            <label>Date <input type="date" name="day" required></label>
+          </div>
+          <label>Activity <select name="activityKey"></select></label>
+          <div data-custom hidden class="custom-box">
+            <label>Activity name <input name="label" maxlength="80" placeholder="e.g. Charcoal braai"></label>
+            <div class="row">
+              <label>Category
+                <select name="customCategory">
+                  <option value="transport">Transport</option>
+                  <option value="food">Food</option>
+                  <option value="energy">Energy</option>
+                </select>
+              </label>
+              <label>CO2 (kg) <input type="number" name="co2" min="0" step="0.01"></label>
+            </div>
+          </div>
+          <div class="row align-end">
+            <label>Quantity <span class="unit" data-unit></span>
+              <input type="number" name="quantity" min="0" step="0.1" placeholder="e.g. 12">
+            </label>
+            <div class="preview">≈ <strong data-preview>0 kg CO2e</strong></div>
+          </div>
+          <p class="error" data-error></p>
+          <button class="btn" type="submit">Add to log</button>
+        </form>
+      </section>
+
+      <section class="card totals-card">
+        <h2>Running total</h2>
+        <div class="big-number" data-total>0 kg</div>
+        <p class="muted">CO2e across <span data-count>0</span> logged activities</p>
+        <div class="mini-stats">
+          <div><span class="muted">Today</span><strong data-today>0 kg</strong></div>
+          <div><span class="muted">Highest category</span><strong data-highest>-</strong></div>
+        </div>
+        <div class="chart-wrap small"><canvas id="categoryChart"></canvas></div>
+      </section>
+    </div>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Your log</h2>
+        <div class="filters" data-filters>
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="transport">Transport</button>
+          <button class="chip" data-filter="food">Food</button>
+          <button class="chip" data-filter="energy">Energy</button>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="activityChart"></canvas></div>
+      <p class="muted filter-total" data-filter-total></p>
+      <ul class="log-list" data-log></ul>
+      <button class="link-btn danger" data-clear hidden>Clear guest log</button>
+    </section>
+  </main>
+
+  <footer class="footer">Footprint Logger. Emission factors are indicative estimates in kg CO2-equivalent.</footer>
+
+  <script src="/vendor/chart.umd.min.js"></script>
+  <script src="/js/factors.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/guest.js"></script>
+</body>
+</html>

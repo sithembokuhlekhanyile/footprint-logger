@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | Footprint Logger</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232f7d6d'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="brand"><span class="brand-mark"></span> Footprint Logger</a>
+    <nav data-nav></nav>
+  </header>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1 data-greeting>Your dashboard</h1>
+        <p class="muted" data-subtitle></p>
+      </div>
+    </div>
+    <p class="notice success" data-imported hidden></p>
+
+    <section class="stat-grid">
+      <div class="stat"><span class="muted">Today</span><strong data-stat="today">-</strong></div>
+      <div class="stat"><span class="muted">Last 7 days</span><strong data-stat="last7">-</strong></div>
+      <div class="stat"><span class="muted">All time</span><strong data-stat="all">-</strong><small class="muted" data-stat="entries"></small></div>
+      <div class="stat"><span class="muted">Logging streak</span><strong data-stat="streak">-</strong><small class="muted" data-stat="longest"></small></div>
+    </section>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2>Log an activity</h2>
+        <form class="activity-form" data-activity-form>
+          <div class="row">
+            <label>Category
+              <select name="category">
+                <option value="all">All categories</option>
+                <option value="transport">Transport</option>
+                <option value="food">Food</option>
+                <option value="energy">Energy</option>
+              </select>
+            </label>
+            <label>Date <input type="date" name="day" required></label>
+          </div>
+          <label>Activity <select name="activityKey"></select></label>
+          <div data-custom hidden class="custom-box">
+            <label>Activity name <input name="label" maxlength="80" placeholder="e.g. Charcoal braai"></label>
+            <div class="row">
+              <label>Category
+                <select name="customCategory">
+                  <option value="transport">Transport</option>
+                  <option value="food">Food</option>
+                  <option value="energy">Energy</option>
+                </select>
+              </label>
+              <label>CO2 (kg) <input type="number" name="co2" min="0" step="0.01"></label>
+            </div>
+          </div>
+          <div class="row align-end">
+            <label>Quantity <span class="unit" data-unit></span>
+              <input type="number" name="quantity" min="0" step="0.1" placeholder="e.g. 12">
+            </label>
+            <div class="preview">≈ <strong data-preview>0 kg CO2e</strong></div>
+          </div>
+          <p class="error" data-error></p>
+          <button class="btn" type="submit">Add to log</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Weekly goal</h2>
+        <div data-goal></div>
+        <label class="inline-label">Reduction target
+          <select data-goal-percent>
+            <option value="5">5% below last week</option>
+            <option value="10">10% below last week</option>
+            <option value="15">15% below last week</option>
+            <option value="20">20% below last week</option>
+            <option value="25">25% below last week</option>
+          </select>
+        </label>
+        <div data-goal-history></div>
+      </section>
+    </div>
+
+    <section class="card insight-card">
+      <h2>Insights for you</h2>
+      <p class="focus" data-weekly-focus></p>
+      <div class="grid grid-2 tight">
+        <div>
+          <h3>Highest-emission categories</h3>
+          <div data-ranking></div>
+          <h3>Biggest single sources</h3>
+          <ol class="top-list" data-top></ol>
+        </div>
+        <div>
+          <h3>Personalised tips</h3>
+          <ul class="tips" data-tips></ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2>Last 14 days</h2>
+        <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
+      </section>
+      <section class="card">
+        <h2>Community comparison</h2>
+        <p class="muted" data-community-text></p>
+        <div class="chart-wrap small"><canvas id="communityChart"></canvas></div>
+      </section>
+    </div>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2>By category (last 7 days)</h2>
+        <div class="chart-wrap"><canvas id="categoryChart"></canvas></div>
+      </section>
+      <section class="card">
+        <h2>Weekly summaries</h2>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Week</th><th>Entries</th><th>Days logged</th><th class="num">Total</th><th class="num">Change</th></tr></thead>
+          <tbody data-weekly></tbody>
+        </table></div>
+      </section>
+    </div>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Activity log</h2>
+        <div class="filters" data-filters>
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="transport">Transport</button>
+          <button class="chip" data-filter="food">Food</button>
+          <button class="chip" data-filter="energy">Energy</button>
+        </div>
+      </div>
+      <p class="muted filter-total" data-filter-total></p>
+      <ul class="log-list" data-log></ul>
+      <button class="link-btn more-btn" data-more hidden></button>
+    </section>
+  </main>
+
+  <footer class="footer">Footprint Logger. Emission factors are indicative estimates in kg CO2-equivalent.</footer>
+
+  <script src="/vendor/chart.umd.min.js"></script>
+  <script src="/js/factors.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
